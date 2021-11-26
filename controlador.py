@@ -8,8 +8,8 @@ from vista import Ventana
 class Controlador:
     def __init__(self, root):
         self.root_controller = root
-        self.conection = Coneccion()
-        Ventana(root)
+        #self.conection = Coneccion()
+        self.ventanta = Ventana(root)
 
     """def insertar_cancion(self, nombre, duracion):
         if validador.validar_duracion(duracion):
