@@ -1,8 +1,8 @@
-import base_de_datos
 from tkinter import *
-from base_de_datos import Coneccion
-import validador
 from vista import Ventana
+"""import base_de_datos
+from base_de_datos import Coneccion
+import validador"""
 
 
 class Controlador:
