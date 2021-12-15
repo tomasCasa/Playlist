@@ -1,13 +1,12 @@
 from tkinter import *
 from tkinter import ttk
-import validador
-from base_de_datos import Coneccion
+from modelo import Ejecutable
 
 
 class Ventana:
     def __init__(self, root):
         self.root_vista = root
-        self.conection = Coneccion()
+        self.ejecutador = Ejecutable()
         # Defino las variables que voy a usar
         self.nombre = StringVar()
         self.duracion = StringVar()
@@ -74,50 +73,13 @@ class Ventana:
         self.b_salir.grid(column=3, row=6)
 
     def insertar_cancion(self, nombre, duracion):
-        if validador.validar_duracion(duracion):
-            if validador.validar_nombre(nombre):
-                self.conection.insertar_cancion(nombre, duracion)
-                validador.info_validacion("Se inserto el dato correctamente")
-            else:
-                validador.error_patron("""El formato del nombre de la cancion debe terminar con .mp3 
-                              y no tener los simbolos '<' y '>'""")
-        else:
-            validador.error_patron("El formato de la duracion de la cancion debe ser MM:SS")
+        self.ejecutador.insertar_cancion(nombre, duracion)
 
     def borrar_cancion(self, identificador):
-        if validador.validar_id(identificador):
-            if len(identificador) != 0:
-                resultado = self.conection.consultar_cancion(identificador)
-                if len(resultado) != 0:
-                    self.conection.borrar_cancion(identificador)
-                    validador.info_validacion("Se elimino el dato correctamente")
-                else:
-                    validador.error_borrar("El id que quiere borrar no existe")
-            else:
-                validador.error_patron("El id no puede tener ese formato sin nada")
-        else:
-            validador.error_patron("El id no puede tener ese formato")
+        self.ejecutador.borrar_cancion(identificador)
 
     def modificar_cancion(self, identificador, nombre, duracion):
-        if validador.validar_id(identificador):
-            if len(identificador) != 0:
-                if validador.validar_duracion(duracion):
-                    if validador.validar_nombre(nombre):
-                        resultado = self.conection.consultar_cancion(identificador)
-                        if len(resultado) != 0:
-                            self.conection.modificar_cancion(identificador, nombre, duracion)
-                            validador.info_validacion("Se modifico el dato correctamente")
-                        else:
-                            validador.error_borrar("El id que quiere modificar no existe")
-                    else:
-                        validador.error_patron("""El formato del nombre de la cancion debe terminar con .mp3 
-                                      y no tener los simbolos '<' y '>'""")
-                else:
-                    validador.error_patron("El formato de la duracion de la cancion debe ser MM:SS")
-            else:
-                validador.error_patron("El id no puede tener ese formato sin nada")
-        else:
-            validador.error_patron("El id no puede tener ese formato")
+        self.ejecutador.modificar_cancion(identificador,nombre,duracion)
 
     def mostrar(self, tree):
         # limpieza de tabla
@@ -125,7 +87,7 @@ class Ventana:
         for element in records:
             tree.delete(element)
 
-        resultado = self.conection.consulta_all_base()
+        resultado = self.ejecutador.traer_base()
 
         for fila in resultado:
             tree.insert('', 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
