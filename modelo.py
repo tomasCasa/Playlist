@@ -7,50 +7,84 @@ class Ejecutable:
         self.conection = Coneccion()
 
     def insertar_cancion(self, nombre, duracion):
-        if validador.validar_duracion(duracion):
-            if validador.validar_nombre(nombre):
-                self.conection.insertar_cancion(nombre, duracion)
-                validador.info_validacion("Se inserto el dato correctamente")
-            else:
-                validador.error_patron("""El formato del nombre de la cancion debe terminar con .mp3 
-                              y no tener los simbolos '<' y '>'""")
-        else:
-            validador.error_patron("El formato de la duracion de la cancion debe ser MM:SS")
+        try:
+            if len(duracion) == 0:
+                validador.error_patron("La duracion no debe estar vacia")
+                raise TypeError("La duracion no debe estar vacia")
+            if len(nombre) == 0:
+                validador.error_patron("El nombre no debe estar vacio")
+                raise TypeError("El nombre no debe estar vacio")
+            if not validador.validar_duracion(duracion):
+                validador.error_patron("El formato de la duracion de la cancion debe ser MM:SS")
+                raise TypeError("El formato de la duracion de la cancion debe ser MM:SS")
+            if not validador.validar_nombre(nombre):
+                validador.error_patron("""El formato del nombre de la cancion debe terminar con .mp3 y 
+                                no tener los simbolos '<' y '>'""")
+                raise TypeError("""El formato del nombre de la cancion debe terminar con .mp3 y 
+                    no tener los simbolos '<' y '>'""")
+
+            self.conection.insertar_cancion(nombre, duracion)
+            validador.info_validacion("Se inserto el dato correctamente")
+
+        except TypeError as mensaje:
+            print("Ocurrió una excepción identificada.", mensaje)
 
     def borrar_cancion(self, identificador):
-        if validador.validar_id(identificador):
-            if len(identificador) != 0:
-                resultado = self.conection.consultar_cancion(identificador)
-                if len(resultado) != 0:
-                    self.conection.borrar_cancion(identificador)
-                    validador.info_validacion("Se elimino el dato correctamente")
-                else:
-                    validador.error_borrar("El id que quiere borrar no existe")
-            else:
+        try:
+            if len(identificador) == 0:
                 validador.error_patron("El id no puede tener ese formato sin nada")
-        else:
-            validador.error_patron("El id no puede tener ese formato")
+                raise TypeError("El id no puede tener ese formato sin nada")
+            if not validador.validar_id(identificador):
+                validador.error_patron("El id no puede tener ese formato")
+                raise TypeError("El id no puede tener ese formato")
+
+            resultado = self.conection.consultar_cancion(identificador)
+
+            if not len(resultado) != 0:
+                validador.error_borrar("El id que quiere borrar no existe")
+                raise TypeError("El id que quiere borrar no existe")
+
+            self.conection.borrar_cancion(identificador)
+            validador.info_validacion("Se elimino el dato correctamente")
+
+        except TypeError as mensaje:
+            print("Ocurrió una excepción identificada.", mensaje)
 
     def modificar_cancion(self, identificador, nombre, duracion):
-        if validador.validar_id(identificador):
-            if len(identificador) != 0:
-                if validador.validar_duracion(duracion):
-                    if validador.validar_nombre(nombre):
-                        resultado = self.conection.consultar_cancion(identificador)
-                        if len(resultado) != 0:
-                            self.conection.modificar_cancion(identificador, nombre, duracion)
-                            validador.info_validacion("Se modifico el dato correctamente")
-                        else:
-                            validador.error_borrar("El id que quiere modificar no existe")
-                    else:
-                        validador.error_patron("""El formato del nombre de la cancion debe terminar con .mp3 
-                                      y no tener los simbolos '<' y '>'""")
-                else:
-                    validador.error_patron("El formato de la duracion de la cancion debe ser MM:SS")
-            else:
+
+        try:
+            if len(identificador) == 0:
                 validador.error_patron("El id no puede tener ese formato sin nada")
-        else:
-            validador.error_patron("El id no puede tener ese formato")
+                raise TypeError("El id no puede tener ese formato sin nada")
+            if len(duracion) == 0:
+                validador.error_patron("La duracion no debe estar vacia")
+                raise TypeError("La duracion no debe estar vacia")
+            if len(nombre) == 0:
+                validador.error_patron("El nombre no debe estar vacio")
+                raise TypeError("El nombre no debe estar vacio")
+            if not validador.validar_id(identificador):
+                validador.error_patron("El id no puede tener ese formato")
+                raise TypeError("El id no puede tener ese formato")
+            if not validador.validar_duracion(duracion):
+                validador.error_patron("El formato de la duracion de la cancion debe ser MM:SS")
+                raise TypeError("El formato de la duracion de la cancion debe ser MM:SS")
+            if not validador.validar_nombre(nombre):
+                validador.error_patron("""El formato del nombre de la cancion debe terminar con .mp3 y 
+                    no tener los simbolos '<' y '>'""")
+                raise TypeError("""El formato del nombre de la cancion debe terminar con .mp3 y 
+                    no tener los simbolos '<' y '>'""")
+
+            resultado = self.conection.consultar_cancion(identificador)
+
+            if len(resultado) == 0:
+                validador.error_borrar("El id que quiere modificar no existe")
+                raise TypeError("El id que quiere modificar no existe")
+
+            self.conection.modificar_cancion(identificador, nombre, duracion)
+            validador.info_validacion("Se modifico el dato correctamente")
+
+        except TypeError as mensaje:
+            print("Ocurrió una excepción identificada.", mensaje)
 
     def traer_base(self):
         return self.conection.consulta_all_base()

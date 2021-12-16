@@ -46,6 +46,7 @@ class Ventana:
                                   text="Salir",
                                   command=lambda: self.cerrar_programa())
 
+        # Armo la tabla para mostrar los datos de la DB
         self.tree["columns"] = ("col1", "col2", "col3", "col4")
         self.tree.heading("#0", text="ID")
         self.tree.heading("col1", text="Nombre")
@@ -79,7 +80,7 @@ class Ventana:
         self.ejecutador.borrar_cancion(identificador)
 
     def modificar_cancion(self, identificador, nombre, duracion):
-        self.ejecutador.modificar_cancion(identificador,nombre,duracion)
+        self.ejecutador.modificar_cancion(identificador, nombre, duracion)
 
     def mostrar(self, tree):
         # limpieza de tabla
@@ -89,6 +90,7 @@ class Ventana:
 
         resultado = self.ejecutador.traer_base()
 
+        # llenado de tabla
         for fila in resultado:
             tree.insert('', 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
 

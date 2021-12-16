@@ -1,7 +1,7 @@
 import re
 from tkinter.messagebox import *
 
-patron_duracion = "^(2[0-3]|[01]?[0-9]):([0-5]?[0-9])$"
+patron_duracion = "^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]){2}$"
 patron_nombre_cancion = "^[^<,>]*(\.mp3)$"
 patron_id = "^[0-9]+$"
 
