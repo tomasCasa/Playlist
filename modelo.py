@@ -1,9 +1,11 @@
 import validador
 #from base_de_datos import Coneccion
 import base_peewee
+from logger import log_inicio_app
 
 
 class Ejecutable:
+    @log_inicio_app
     def __init__(self):
         print("Ejecutable creado...")
 

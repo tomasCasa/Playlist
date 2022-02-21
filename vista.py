@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from modelo import Ejecutable
+from logger import log_salir_app
 
 
 class Ventana:
@@ -94,5 +95,6 @@ class Ventana:
         for fila in resultado:
             tree.insert('', 0, text=fila.id, values=(fila.nombre, fila.duracion, fila.fecha))
 
+    @log_salir_app
     def cerrar_programa(self, ):
         self.root_vista.quit()
