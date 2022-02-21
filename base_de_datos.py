@@ -30,7 +30,7 @@ class Coneccion:
         conec.commit()
         self.cerrar_conecion(conec)
 
-    def cerrar_conecion(self, conec):
+    def  cerrar_conecion(self, conec):
         conec.close()
 
     def borrar_cancion(self, identificador):

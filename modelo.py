@@ -1,10 +1,11 @@
 import validador
-from base_de_datos import Coneccion
+#from base_de_datos import Coneccion
+import base_peewee
 
 
 class Ejecutable:
     def __init__(self):
-        self.conection = Coneccion()
+        print("Ejecutable creado...")
 
     def insertar_cancion(self, nombre, duracion):
         try:
@@ -23,7 +24,7 @@ class Ejecutable:
                 raise TypeError("""El formato del nombre de la cancion debe terminar con .mp3 y 
                     no tener los simbolos '<' y '>'""")
 
-            self.conection.insertar_cancion(nombre, duracion)
+            base_peewee.insertar_cancion(nombre, duracion)
             validador.info_validacion("Se inserto el dato correctamente")
 
         except TypeError as mensaje:
@@ -38,13 +39,13 @@ class Ejecutable:
                 validador.error_patron("El id no puede tener ese formato")
                 raise TypeError("El id no puede tener ese formato")
 
-            resultado = self.conection.consultar_cancion(identificador)
+            resultado = base_peewee.consultar_cancion(identificador)
 
             if not len(resultado) != 0:
                 validador.error_borrar("El id que quiere borrar no existe")
                 raise TypeError("El id que quiere borrar no existe")
 
-            self.conection.borrar_cancion(identificador)
+            base_peewee.borrar_cancion(identificador)
             validador.info_validacion("Se elimino el dato correctamente")
 
         except TypeError as mensaje:
@@ -74,17 +75,17 @@ class Ejecutable:
                 raise TypeError("""El formato del nombre de la cancion debe terminar con .mp3 y 
                     no tener los simbolos '<' y '>'""")
 
-            resultado = self.conection.consultar_cancion(identificador)
+            resultado = base_peewee.consultar_cancion(identificador)
 
             if len(resultado) == 0:
                 validador.error_borrar("El id que quiere modificar no existe")
                 raise TypeError("El id que quiere modificar no existe")
 
-            self.conection.modificar_cancion(identificador, nombre, duracion)
+            base_peewee.modificar_cancion(identificador, nombre, duracion)
             validador.info_validacion("Se modifico el dato correctamente")
 
         except TypeError as mensaje:
             print("Ocurrió una excepción identificada.", mensaje)
 
     def traer_base(self):
-        return self.conection.consulta_all_base()
+        return base_peewee.consulta_all_base()

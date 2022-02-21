@@ -1,8 +1,5 @@
 from tkinter import *
 from vista import Ventana
-"""import base_de_datos
-from base_de_datos import Coneccion
-import validador"""
 
 
 class Controlador:

@@ -92,7 +92,7 @@ class Ventana:
 
         # llenado de tabla
         for fila in resultado:
-            tree.insert('', 0, text=fila[0], values=(fila[1], fila[2], fila[3]))
+            tree.insert('', 0, text=fila.id, values=(fila.nombre, fila.duracion, fila.fecha))
 
     def cerrar_programa(self, ):
         self.root_vista.quit()
