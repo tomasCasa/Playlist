@@ -1,15 +1,24 @@
 import validador
-#from base_de_datos import Coneccion
 import base_peewee
 from logger import log_inicio_app
+from observador import Observable
 
 
-class Ejecutable:
+class Ejecutable(Observable):
     @log_inicio_app
     def __init__(self):
         print("Ejecutable creado...")
+        self.estado = None
+
+    def set_estado(self, value):
+        self.estado = value
+        self.notificar()
+
+    def get_estado(self):
+        return self.estado
 
     def insertar_cancion(self, nombre, duracion):
+        self.set_estado("Se quizo dar de alta una cancion")
         try:
             if len(duracion) == 0:
                 validador.error_patron("La duracion no debe estar vacia")
@@ -33,6 +42,7 @@ class Ejecutable:
             print("Ocurrió una excepción identificada.", mensaje)
 
     def borrar_cancion(self, identificador):
+        self.set_estado("Se quizo borrar una cancion")
         try:
             if len(identificador) == 0:
                 validador.error_patron("El id no puede tener ese formato sin nada")
@@ -54,7 +64,7 @@ class Ejecutable:
             print("Ocurrió una excepción identificada.", mensaje)
 
     def modificar_cancion(self, identificador, nombre, duracion):
-
+        self.set_estado("Se quizo de modificar una cancion")
         try:
             if len(identificador) == 0:
                 validador.error_patron("El id no puede tener ese formato sin nada")
@@ -90,4 +100,5 @@ class Ejecutable:
             print("Ocurrió una excepción identificada.", mensaje)
 
     def traer_base(self):
+        self.set_estado("Se quizo consultar una cancion")
         return base_peewee.consulta_all_base()

@@ -2,12 +2,14 @@ from tkinter import *
 from tkinter import ttk
 from modelo import Ejecutable
 from logger import log_salir_app
+import observador
 
 
 class Ventana:
     def __init__(self, root):
         self.root_vista = root
         self.ejecutador = Ejecutable()
+        self.observador = observador.ObservadorConcreto(self.ejecutador)
         # Defino las variables que voy a usar
         self.nombre = StringVar()
         self.duracion = StringVar()
